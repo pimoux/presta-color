@@ -1,0 +1,1 @@
+<h1>Hello {$catName}</h1>
