@@ -76,8 +76,6 @@ class MyModule extends Module implements WidgetInterface
         ];
     }
 
-    //configuration page
-
 //    public function getContent()
 //    {
 //        $message = null;
@@ -99,12 +97,15 @@ class MyModule extends Module implements WidgetInterface
     {
         $response = '';
         if (Tools::isSubmit('submit' . $this->name)) {
-            $courseRating = Tools::getValue('courseRating');
-            if ($courseRating && Validate::isGenericName($courseRating)) {
-                Configuration::updateValue('COURSE_RATING', Tools::getValue('courseRating'));
-                $response .= $this->displayConfirmation($this->trans('Form submitted successfully'));
+            $hexaRegex = '/#([a-f0-9]{3}){1,2}\b/i';
+            $color = Tools::getValue('color');
+            if (!preg_match($hexaRegex, $color)) {
+                $response .= $this->displayError($this->trans('The value is not a hexadecimal color'));
+            } else if ($color && Validate::isGenericName($color)) {
+                Configuration::updateValue('HEXADECIMAL_COLOR', Tools::getValue('color'));
+                $response .= $this->displayConfirmation($this->trans('The color has been submitted successfully'));
             } else {
-                $response .= $this->displayError($this->trans('Form has not been submitted successfully'));
+                $response .= $this->displayError($this->trans('An error occurred'));
             }
         }
 
@@ -118,19 +119,19 @@ class MyModule extends Module implements WidgetInterface
 
         $fields[0]['form'] = [
             'legend' => [
-                'title' => $this->trans('Rating setting')
+                'title' => $this->trans('Color settings')
             ],
             'input' => [
                 [
                     'type' => 'text',
-                    'label' => $this->l('Course rating'),
-                    'name' => 'courseRating',
+                    'label' => $this->l('Hexadecimal color'),
+                    'name' => 'color',
                     'size' => 20,
                     'required' => true
                 ]
             ],
             'submit' => [
-                'title' => $this->trans('Save the rating'),
+                'title' => $this->trans('Save the color'),
                 'class' => 'btn btn-primary pull-right'
             ]
         ];
@@ -161,7 +162,7 @@ class MyModule extends Module implements WidgetInterface
                 'href' => AdminController::$currentIndex . '&token=' . Tools::getAdminTokenLite('AdminModules')
             ]
         ];
-        $helper->fields_value['courseRating'] = Configuration::get('COURSE_RATING');
+        $helper->fields_value['color'] = Configuration::get('HEXADECIMAL_COLOR');
 
         return $helper->generateForm($fields);
     }
@@ -170,16 +171,16 @@ class MyModule extends Module implements WidgetInterface
     public function hookModuleRoutes($params)
     {
         return [
-          'test' => [
-              'controller' => 'test',
-              'rule' => 'fc-test',
-              'keywords' => [],
-              'params' => [
-                  'module' => $this->name,
-                  'fc' => 'module',
-                  'controller' => 'test'
-              ]
-          ]
+            'test' => [
+                'controller' => 'test',
+                'rule' => 'color',
+                'keywords' => [],
+                'params' => [
+                    'module' => $this->name,
+                    'fc' => 'module',
+                    'controller' => 'test'
+                ]
+            ]
         ];
     }
 }
