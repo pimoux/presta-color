@@ -6,24 +6,24 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-class MyModule extends Module implements WidgetInterface
+class ColorModule extends Module implements WidgetInterface
 {
     /**
-     * MyModule constructor.
+     * ColorModule constructor.
      */
     public function __construct()
     {
-        $this->name = 'mymodule';
+        $this->name = 'colormodule';
         $this->tab = 'front_office_features';
-        $this->version = '1.0.0';
+        $this->version = '1.1.7';
         $this->author = 'Luka Vouillemont';
         $this->need_instance = 0;
         $this->bootstrap = true;
 
         parent::__construct();
 
-        $this->displayName = $this->l('My first module');
-        $this->description = $this->l('This is my first module');
+        $this->displayName = $this->l('color test module');
+        $this->description = $this->l('This is my color test module');
 
         $this->confirmUninstall = $this->l('No... Don\'t do that please :(');
 
@@ -61,12 +61,11 @@ class MyModule extends Module implements WidgetInterface
 
     public function renderWidget($hookName, array $configuration)
     {
-        echo $this->context->link->getModuleLink($this->name, 'test');
         if ($hookName === 'displayNavFullWidth') {
             return 'displayNavFullWidthException';
         }
         $this->context->smarty->assign($this->getWidgetVariables($hookName, $configuration));
-        return $this->fetch('module:mymodule/views/templates/hook/footer.tpl', $this->getCacheId('blockreassurance'));
+        return $this->fetch('module:colormodule/views/templates/hook/footer.tpl', $this->getCacheId('blockreassurance'));
     }
 
     public function getWidgetVariables($hookName, array $configuration)
@@ -90,7 +89,7 @@ class MyModule extends Module implements WidgetInterface
 //            'courseRating' => $courseRating,
 //            'message' => $message
 //        ]);
-//        return $this->fetch('module:mymodule/views/templates/admin/configuration.tpl');
+//        return $this->fetch('module:colormodule/views/templates/admin/configuration.tpl');
 //    }
 
     public function getContent(): string
@@ -108,7 +107,6 @@ class MyModule extends Module implements WidgetInterface
                 $response .= $this->displayError($this->trans('An error occurred'));
             }
         }
-
 
         return $response . $this->displayForm();
     }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <module>
-    <name>mymodule</name>
+    <name>colormodule</name>
     <displayName><![CDATA[My first module]]></displayName>
     <version><![CDATA[1.0.0]]></version>
     <description><![CDATA[This is my first module]]></description>

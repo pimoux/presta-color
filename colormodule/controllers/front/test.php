@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-class MyModuleTestModuleFrontController extends ModuleFrontController
+class ColorModuleTestModuleFrontController extends ModuleFrontController
 {
     /**
      * @throws PrestaShopException
@@ -13,7 +13,7 @@ class MyModuleTestModuleFrontController extends ModuleFrontController
         $this->context->smarty->assign([
             'bg' => Configuration::hasKey('HEXADECIMAL_COLOR') ? Configuration::get('HEXADECIMAL_COLOR') : '#FFF'
         ]);
-        $this->setTemplate('module:mymodule/views/templates/front/test.tpl');
+        $this->setTemplate('module:colormodule/views/templates/front/test.tpl');
     }
 
     public function postProcess()
@@ -29,7 +29,7 @@ class MyModuleTestModuleFrontController extends ModuleFrontController
     {
         $this->registerStylesheet('theme-main', '/assets/css/theme.css', ['media' => 'all', 'priority' => 50]);
         $this->registerStylesheet('theme-custom', '/assets/css/custom.css', ['media' => 'all', 'priority' => 1000]);
-        $this->registerStylesheet('color', 'modules/mymodule/views/css/colorstyle.css');
+        $this->registerStylesheet('color', 'modules/colormodule/views/css/colorstyle.css');
 
         if ($this->context->language->is_rtl) {
             $this->registerStylesheet('theme-rtl', '/assets/css/rtl.css', ['media' => 'all', 'priority' => 900]);
